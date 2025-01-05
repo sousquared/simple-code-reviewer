@@ -1,5 +1,7 @@
-import os
 import google.generativeai as genai
+
+from client.secret_manager import get_secret
+from config.settings import PROJECT_ID, GEMINI_API_KEY_SECRET_ID
 
 # システムプロンプト
 SYSTEM_PROMPT = """あなたはコードレビュワーです。返信は日本語で返してください。
@@ -21,7 +23,7 @@ SYSTEM_PROMPT = """あなたはコードレビュワーです。返信は日本�
 """
 
 # Geminiの設定
-api_key = os.getenv("GEMINI_API_KEY", "YOUR_API_KEY")
+api_key = get_secret(project_id=PROJECT_ID, secret_id=GEMINI_API_KEY_SECRET_ID)
 genai.configure(api_key=api_key)
 model = genai.GenerativeModel("gemini-1.5-flash")
 

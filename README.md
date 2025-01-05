@@ -6,7 +6,8 @@ Google Gemini API を使用した Gradio ベースの AI チャットアプリ�
 
 - Python 3.10 以上
 - [uv](https://github.com/astral-sh/uv)
-- Google Cloud Gemini API キー
+- Google Cloud Platform プロジェクト
+- Google Cloud Secret Manager に保存された Gemini API キー
 
 ## セットアップと実行方法
 
@@ -16,11 +17,7 @@ Google Gemini API を使用した Gradio ベースの AI チャットアプリ�
 uv sync
 ```
 
-2. Gemini API キーの設定:
-
-```bash
-export GEMINI_API_KEY="your-api-key-here"
-```
+2. 「API キーと設定方法」セクションの手順に従って、API の設定を行ってください。
 
 3. アプリケーションの実行:
 
@@ -51,8 +48,32 @@ uv run src/app.py
 - 日本語での対話に対応
 - 使用例付き
 
-## API キーの取得方法
+## API キーと設定方法
 
-1. [Google AI Studio](https://makersuite.google.com/app/apikey)にアクセス
-2. API キーを作成
-3. 作成した API キーを環境変数`GEMINI_API_KEY`に設定
+`src/config/settings.py` を開き、以下の設定を行ってください：
+
+```python
+# Google Cloud Platform のプロジェクトID
+# GCPのコンソールで確認できるプロジェクトIDを設定
+PROJECT_ID = "YOUR_GCP_PROJECT_ID"
+
+# Secret Manager に保存された Gemini API キーのシークレットID
+# Google Cloud Secret Manager で作成したシークレットのID
+GEMINI_API_KEY_SECRET_ID = "YOUR_GEMINI_API_KEY_SECRET_ID"
+```
+
+## API キーの設定手順
+
+1. [Google AI Studio](https://makersuite.google.com/app/apikey)にアクセスし、API キーを作成
+2. [Google Cloud Console](https://console.cloud.google.com/)で Secret Manager を開く
+3. 新しいシークレットを作成し、Gemini API キーを保存
+   - シークレット ID を設定（例: "gemini-api-key"）
+   - シークレットの値として Gemini API キーを以下の形式で設定:
+     ```json
+     {
+       "api_key": "YOUR_GEMINI_API_KEY"
+     }
+     ```
+4. `settings.py` の設定を更新
+   - `PROJECT_ID` に GCP プロジェクト ID を設定
+   - `GEMINI_API_KEY_SECRET_ID` に作成したシークレット ID を設定
