@@ -25,7 +25,7 @@ export GEMINI_API_KEY="your-api-key-here"
 3. アプリケーションの実行:
 
 ```bash
-uv run app/app.py
+uv run src/app.py
 ```
 
 アプリケーションが起動すると、ブラウザで自動的に Gradio のインターフェースが開きます。
@@ -34,7 +34,7 @@ uv run app/app.py
 
 ```
 .
-├── app/
+├── src/
 │   ├── app.py          # メインアプリケーション
 │   ├── ai_response.py  # Gemini API 応答処理
 │   └── mock_response.py # モックレスポンス処理
