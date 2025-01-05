@@ -36,8 +36,9 @@ uv run src/app.py
 .
 ├── src/
 │   ├── app.py          # メインアプリケーション
-│   ├── ai_response.py  # Gemini API 応答処理
-│   └── mock_response.py # モックレスポンス処理
+│   └── response/       # レスポンス処理モジュール
+│       ├── ai_response.py    # Gemini API 応答処理
+│       └── mock_response.py  # モックレスポンス処理
 ├── README.md
 ├── pyproject.toml      # 依存関係の定義
 └── .python-version     # Python バージョン設定

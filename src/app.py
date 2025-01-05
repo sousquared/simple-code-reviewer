@@ -1,6 +1,6 @@
 import gradio as gr
-from ai_response import get_ai_response, SYSTEM_PROMPT
-from mock_response import get_mock_response
+from response.ai_response import get_ai_response, SYSTEM_PROMPT
+from response.mock_response import get_mock_response
 
 with gr.Blocks(
     title="AIコードレビュワー",
@@ -41,7 +41,9 @@ with gr.Blocks(
                     "レビュー実行", variant="primary", elem_classes="orange-button"
                 )
                 ai_output = gr.Markdown(
-                    label="レビュー結果", value="ここに結果が表示されます", elem_classes="output-text"
+                    label="レビュー結果",
+                    value="ここに結果が表示されます",
+                    elem_classes="output-text",
                 )
                 gr.Examples(
                     examples=[
