@@ -8,8 +8,11 @@ Google Gemini API を使用した Gradio ベースの AI チャットアプリ�
 - [uv](https://github.com/astral-sh/uv)
 - Google Cloud Platform プロジェクト
 - Google Cloud Secret Manager に保存された Gemini API キー
+- Docker (Docker を使用する場合)
 
 ## セットアップと実行方法
+
+### 通常の実行方法
 
 1. uv を使用して依存関係をインストール:
 
@@ -25,7 +28,35 @@ uv sync
 uv run src/app.py
 ```
 
-アプリケーションが起動すると、ブラウザで自動的に Gradio のインターフェースが開きます。
+### Docker を使用した実行方法
+
+1. 「API キーと設定方法」セクションの手順に従って、Secret Manager の設定を行ってください。
+
+2. Google Cloud 認証を設定:
+
+   ```bash
+   gcloud auth application-default login
+   ```
+
+3. Makefile を使用して Docker イメージをビルド:
+
+```bash
+make build
+```
+
+4. アプリケーションの実行:
+
+```bash
+make run
+```
+
+5. イメージの削除（必要な場合）:
+
+```bash
+make clean
+```
+
+アプリケーションが起動すると、ブラウザで自動的に Gradio のインターフェースが開きます（http://localhost:7860）。
 
 ## プロジェクト構成
 
