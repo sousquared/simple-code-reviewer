@@ -1,7 +1,8 @@
-.PHONY: build run clean
+.PHONY: build run clean deploy
 
-IMAGE_NAME = simple-code-reviewer
-PORT = 7860
+IMAGE_NAME = tmp-simple-code-reviewer
+PORT = 8080
+PROJECT_ID = $(shell gcloud config get-value project)
 
 build:
 	docker build -t $(IMAGE_NAME) .
@@ -13,4 +14,7 @@ run:
 		$(IMAGE_NAME)
 
 clean:
-	docker rmi $(IMAGE_NAME) 
+	docker rmi $(IMAGE_NAME)
+
+deploy:
+	gcloud builds submit --config cloudbuild.yaml

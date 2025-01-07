@@ -1,4 +1,5 @@
 import gradio as gr
+import os
 from response.ai_response import get_ai_response, SYSTEM_PROMPT
 from response.mock_response import get_mock_response
 
@@ -22,9 +23,6 @@ with gr.Blocks(
         with gr.Tab("AI応答"):
             with gr.Column():
                 gr.Markdown("### Gemini APIを使用したコードレビュー")
-                gr.Markdown(
-                    "環境変数 GEMINI_API_KEY に有効なAPIキーを設定してください。"
-                )
                 with gr.Accordion("システムプロンプトを編集", open=False):
                     system_prompt = gr.Textbox(
                         value=SYSTEM_PROMPT,
@@ -93,4 +91,9 @@ with gr.Blocks(
     )
 
 if __name__ == "__main__":
-    demo.launch(server_name="0.0.0.0")
+    port = int(os.getenv("PORT", "8080"))
+    demo.launch(
+        server_name="0.0.0.0",
+        server_port=port,
+        auth=("sousquared", "sousquared"),
+    )

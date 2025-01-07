@@ -15,8 +15,9 @@ COPY src/ src/
 # Install Python dependencies
 RUN pip install --no-cache-dir .
 
-# Expose port for Gradio
-EXPOSE 7860
+# Use PORT environment variable
+ENV PORT 8080
+EXPOSE ${PORT}
 
 # Run the application
 CMD ["python", "src/app.py"] 

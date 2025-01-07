@@ -10,6 +10,39 @@ Google Gemini API を使用した Gradio ベースの AI チャットアプリ�
 - Google Cloud Secret Manager に保存された Gemini API キー
 - Docker (Docker を使用する場合)
 
+## セービスアカウントの設定
+
+Cloud Run でアプリケーションを実行するには、Secret Manager へのアクセス権限を持つサービスアカウントが必要です。以下の手順で設定を行ってください：
+
+1. サービスアカウントの作成:
+
+```bash
+gcloud iam service-accounts create simple-code-reviewer --display-name="Simple Code Reviewer Service Account"
+```
+
+2. Secret Manager の閲覧権限を付与:
+
+```bash
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:simple-code-reviewer@$PROJECT_ID.iam.gserviceaccount.com" \
+  --role="roles/secretmanager.viewer"
+```
+
+3. シークレットへのアクセス権限を付与:
+
+```bash
+gcloud secrets add-iam-policy-binding gemini-api-key \
+  --member="serviceAccount:simple-code-reviewer@$PROJECT_ID.iam.gserviceaccount.com" \
+  --role="roles/secretmanager.secretAccessor"
+```
+
+注意事項：
+
+- サービスアカウント名は `simple-code-reviewer` を使用します
+- `$PROJECT_ID` は実際のプロジェクト ID に置き換えてください
+- 権限は最小限に保つため、必要な Secret Manager の権限のみを付与しています
+- IAM の権限が反映されるまで数分かかる場合があります
+
 ## セットアップと実行方法
 
 ### 通常の実行方法
@@ -57,6 +90,41 @@ make clean
 ```
 
 アプリケーションが起動すると、ブラウザで自動的に Gradio のインターフェースが開きます（http://localhost:7860）。
+
+### Google Cloud Run へのデプロイ方法
+
+1. Google Cloud CLI をインストールし、認証を設定:
+
+```bash
+gcloud auth login
+gcloud config set project YOUR_GCP_PROJECT_ID
+```
+
+2. Cloud Build と Cloud Run API を有効化:
+
+```bash
+gcloud services enable cloudbuild.googleapis.com run.googleapis.com
+```
+
+3. サービスアカウントの設定:
+
+   - 「サービスアカウントの設定」セクションの手順に従って、必要なサービスアカウントと権限を設定してください
+   - この設定は Secret Manager からの API キーの取得に必要です
+
+4. アプリケーションのデプロイ:
+
+```bash
+make deploy
+```
+
+デプロイが完了すると、Cloud Run の URL が表示されます。この URL にアクセスすることで、アプリケーションを使用できます。
+
+注意事項：
+
+- デプロイ前に `settings.py` の設定が正しく行われていることを確認してください
+- Cloud Run へのデプロイには、適切な Google Cloud の権限が必要です
+- デプロイ後、アプリケーションは自動的にスケーリングされます
+- サービスアカウントが正しく設定されていることを確認してください
 
 ## 機能
 
