@@ -40,4 +40,12 @@ coverage.xml
 
 # Local development settings
 *.log
-.DS_Store 
+.DS_Store
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraformrc
+terraform.rc

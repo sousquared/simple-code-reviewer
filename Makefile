@@ -1,6 +1,6 @@
 .PHONY: build run clean deploy
 
-IMAGE_NAME = tmp-simple-code-reviewer
+IMAGE_NAME = simple-code-reviewer
 PORT = 8080
 PROJECT_ID = $(shell gcloud config get-value project)
 
